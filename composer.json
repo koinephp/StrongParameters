@@ -1,0 +1,21 @@
+{
+    "name": "koine/strong-parameters",
+    "description": "Rails like Strong parameters for php",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Marcelo Jacobus",
+            "email": "marcelo.jacobus@gmail.com"
+        }
+    ],
+    "require": {
+        "php" : ">=5.3.3"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "*",
+        "satooshi/php-coveralls": "dev-master"
+    },
+    "autoload": {
+        "psr-0": {"Koine\\": "lib"}
+    }
+}
