@@ -22,11 +22,11 @@ Package information:
 ### Usage
 
 ```php
-use Koine\StrongParameters;
+use Koine\Parameters;
 
-$params = new StrongParameters($_POST);
+$params = new Parameters($_POST);
 
-$userParams = $params->require('user')->permit(array(
+$userParams = $params->requireParam('user')->permit(array(
     'name',
     'email',
 ));
