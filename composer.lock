@@ -4,9 +4,49 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "3fb1561c6001a38322eea74218c365ea",
+    "hash": "efe0cb7f3c71fe1f82b186cfe747cb86",
     "packages": [
-
+        {
+            "name": "koine/core",
+            "version": "0.9.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/koinephp/Core.git",
+                "reference": "e76cede4829a238b652a84a1f23af4f84887ee5f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/koinephp/Core/zipball/e76cede4829a238b652a84a1f23af4f84887ee5f",
+                "reference": "e76cede4829a238b652a84a1f23af4f84887ee5f",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "*",
+                "satooshi/php-coveralls": "dev-master"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Koine\\": "lib"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Marcelo Jacobus",
+                    "email": "marcelo.jacobus@gmail.com"
+                }
+            ],
+            "description": "Primitive types behaving like grown up objects",
+            "homepage": "https://github.com/koinephp/core",
+            "time": "2014-08-29 14:40:45"
+        }
     ],
     "packages-dev": [
         {
@@ -100,47 +140,6 @@
                 "web service"
             ],
             "time": "2014-08-11 04:32:36"
-        },
-        {
-            "name": "koine/core",
-            "version": "0.9.5",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/koinephp/Core.git",
-                "reference": "e76cede4829a238b652a84a1f23af4f84887ee5f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/koinephp/Core/zipball/e76cede4829a238b652a84a1f23af4f84887ee5f",
-                "reference": "e76cede4829a238b652a84a1f23af4f84887ee5f",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.3"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "*",
-                "satooshi/php-coveralls": "dev-master"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Koine\\": "lib"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Marcelo Jacobus",
-                    "email": "marcelo.jacobus@gmail.com"
-                }
-            ],
-            "description": "Primitive types behaving like grown up objects",
-            "homepage": "https://github.com/koinephp/core",
-            "time": "2014-08-29 14:40:45"
         },
         {
             "name": "ocramius/instantiator",

@@ -9,11 +9,11 @@
         }
     ],
     "require": {
-        "php" : ">=5.3.3"
+        "php" : ">=5.3.3",
+        "koine/core": "0.9.*"
     },
     "require-dev": {
         "phpunit/phpunit": "*",
-        "koine/core": "0.9.*",
         "satooshi/php-coveralls": "dev-master"
     },
     "autoload": {
