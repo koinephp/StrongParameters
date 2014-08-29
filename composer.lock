@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "31bfcbeed482a8ae3c1bcec08f7e57a1",
+    "hash": "3fb1561c6001a38322eea74218c365ea",
     "packages": [
 
     ],
@@ -102,17 +102,17 @@
             "time": "2014-08-11 04:32:36"
         },
         {
-            "name": "koine/objects",
-            "version": "0.9.4",
+            "name": "koine/core",
+            "version": "0.9.5",
             "source": {
                 "type": "git",
-                "url": "https://github.com/koinephp/Objects.git",
-                "reference": "53cd9639bc331809d22c4bf3e98ca547965d1964"
+                "url": "https://github.com/koinephp/Core.git",
+                "reference": "e76cede4829a238b652a84a1f23af4f84887ee5f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/koinephp/Objects/zipball/53cd9639bc331809d22c4bf3e98ca547965d1964",
-                "reference": "53cd9639bc331809d22c4bf3e98ca547965d1964",
+                "url": "https://api.github.com/repos/koinephp/Core/zipball/e76cede4829a238b652a84a1f23af4f84887ee5f",
+                "reference": "e76cede4829a238b652a84a1f23af4f84887ee5f",
                 "shasum": ""
             },
             "require": {
@@ -139,8 +139,8 @@
                 }
             ],
             "description": "Primitive types behaving like grown up objects",
-            "homepage": "https://github.com/mjacobus/php-objects",
-            "time": "2014-07-29 20:32:19"
+            "homepage": "https://github.com/koinephp/core",
+            "time": "2014-08-29 14:40:45"
         },
         {
             "name": "ocramius/instantiator",
@@ -505,16 +505,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "4.2.2",
+            "version": "4.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "a33fa68ece9f8c68589bfc2da8d2794e27b820bc"
+                "reference": "3985cd437c1da2934421c99e54ebdf24f0362a7a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/a33fa68ece9f8c68589bfc2da8d2794e27b820bc",
-                "reference": "a33fa68ece9f8c68589bfc2da8d2794e27b820bc",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/3985cd437c1da2934421c99e54ebdf24f0362a7a",
+                "reference": "3985cd437c1da2934421c99e54ebdf24f0362a7a",
                 "shasum": ""
             },
             "require": {
@@ -575,7 +575,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2014-08-18 05:12:30"
+            "time": "2014-08-28 13:38:26"
         },
         {
             "name": "phpunit/phpunit-mock-objects",

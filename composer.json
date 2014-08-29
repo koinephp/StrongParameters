@@ -13,7 +13,7 @@
     },
     "require-dev": {
         "phpunit/phpunit": "*",
-        "koine/objects": "0.9.*",
+        "koine/core": "0.9.*",
         "satooshi/php-coveralls": "dev-master"
     },
     "autoload": {
