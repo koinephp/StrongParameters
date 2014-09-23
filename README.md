@@ -24,12 +24,29 @@ Package information:
 ```php
 use Koine\Parameters;
 
-$params = new Parameters($_POST);
+$params = new Parameters(array(
+    'user' => array(
+        'name'  => 'Foo',
+        'email' => 'Foo@bar.com',
+        'admin' => true
+     )
+));
 
+// throws exception
 $userParams = $params->requireParam('user')->permit(array(
     'name',
     'email',
 ));
+
+// filters value
+Parameters::$throwsException = false;
+
+$userParams = $params->requireParam('user')->permit(array(
+    'name',
+    'email',
+))->toArray(); // array('name' => 'Foo', 'email' => 'Foo@bar.com')
+
+
 
 // do something with the values
 ```
