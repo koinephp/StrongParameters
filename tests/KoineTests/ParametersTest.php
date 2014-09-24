@@ -10,13 +10,14 @@ use PHPUnit_Framework_TestCase;
  */
 class ParametersTest extends PHPUnit_Framework_TestCase
 {
-    protected $object;
-
     public function setUp()
     {
         Parameters::$throwExceptions = true;
+    }
 
-        $this->object = new Parameters(array(
+    public function getUserExample()
+    {
+        return new Parameters(array(
             'empty' => array(),
             'user'  => array(
                 'name'     => 'Jon',
@@ -35,7 +36,7 @@ class ParametersTest extends PHPUnit_Framework_TestCase
      */
     public function inheritsFromKoineHash()
     {
-        $this->assertInstanceOf('Koine\Hash', $this->object);
+        $this->assertInstanceOf('Koine\Hash', $this->getUserExample());
     }
 
     /**
@@ -43,7 +44,9 @@ class ParametersTest extends PHPUnit_Framework_TestCase
      */
     public function throwExceptionsDefaultsToStaticConfiguration()
     {
-        $this->assertTrue($this->object->getThrowExceptions());
+        $params = $this->getUserExample();
+        $this->assertTrue($params->getThrowExceptions());
+
         Parameters::$throwExceptions = false;
 
         $params = new Parameters();
@@ -56,9 +59,11 @@ class ParametersTest extends PHPUnit_Framework_TestCase
     public function setThrowExceptionsToFalseCascadesToNewParameters()
     {
         Parameters::$throwExceptions = false;
-        $this->object = new Parameters($this->object->toArray());
 
-        $user = $this->object->requireParam('user');
+        $params = $this->getUserExample();
+        $params = new Parameters($params->toArray());
+
+        $user = $params->requireParam('user');
 
         $this->assertFalse($user->getThrowExceptions());
 
@@ -73,7 +78,8 @@ class ParametersTest extends PHPUnit_Framework_TestCase
      */
     public function throwExceptionWhenRequiredParamDoesNotExist()
     {
-        $this->object->requireParam('person');
+        $params = $this->getUserExample();
+        $params->requireParam('person');
     }
 
     /**
@@ -83,7 +89,21 @@ class ParametersTest extends PHPUnit_Framework_TestCase
      */
     public function throwExceptionWhenRequiredParamIsEmpty()
     {
-        $this->object->requireParam('empty');
+        $params = $this->getUserExample();
+        $params['empty'] = new Parameters();
+        $params->requireParam('empty');
+    }
+
+    /**
+     * @test
+     * @expectedException \Koine\Parameters\ParameterMissingException
+     * @expectedExceptionMessage Missing param 'empty'
+     */
+    public function throwExceptionWhenRequiredParamIsEmptyArray()
+    {
+        $params = $this->getUserExample();
+        $params['empty'] = array();
+        $params->requireParam('empty');
     }
 
     /**
@@ -96,7 +116,7 @@ class ParametersTest extends PHPUnit_Framework_TestCase
             'lastName' => 'Doe',
         );
 
-        $params = $this->object->requireParam('user');
+        $params = $this->getUserExample()->requireParam('user');
 
         $this->assertEquals($expected, $params->toArray());
 
@@ -110,9 +130,11 @@ class ParametersTest extends PHPUnit_Framework_TestCase
      */
     public function permitThrowsExeptionWhenUnpermitedParamIsPassedIn()
     {
-        $this->assertTrue($this->object->getThrowExceptions());
-        $this->object['user']['admin'] = true;
-        $this->object->requireParam('user')->permit(array('name', 'lastName'));
+        $params = $this->getUserExample();
+
+        $this->assertTrue($this->getUserExample()->getThrowExceptions());
+        $params['user']['admin'] = true;
+        $params->requireParam('user')->permit(array('name', 'lastName'));
     }
 
     /**
@@ -120,10 +142,12 @@ class ParametersTest extends PHPUnit_Framework_TestCase
      */
     public function permitReturnsReturnsAllowedParameters()
     {
-        $permitted = $this->object->requireParam('user')
+        $params = $this->getUserExample();
+
+        $permitted = $params->requireParam('user')
             ->permit(array('name', 'lastName'));
 
-        $this->assertInstanceOf(get_class($this->object), $permitted);
+        $this->assertInstanceOf(get_class($params), $permitted);
 
         $expected = array(
             'name'     => 'Jon',
@@ -139,15 +163,18 @@ class ParametersTest extends PHPUnit_Framework_TestCase
     public function permitFiltersOutParamsThatAreNotAllowed()
     {
         Parameters::$throwExceptions = false;
-        $this->object = new Parameters($this->object->toArray());
 
-        $this->assertFalse($this->object->getThrowExceptions());
+        $params = $this->getUserExample();
 
-        $permitted = $this->object->requireParam('user')->permit(array(
+        $this->object = new Parameters($params->toArray());
+
+        $this->assertFalse($params->getThrowExceptions());
+
+        $permitted = $params->requireParam('user')->permit(array(
             'name',
         ));
 
-        $this->assertInstanceOf(get_class($this->object), $permitted);
+        $this->assertInstanceOf(get_class($params), $permitted);
 
         $expected = array('name' => 'Jon');
 

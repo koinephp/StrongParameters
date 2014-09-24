@@ -43,10 +43,7 @@ class Parameters extends Hash
             throw new ParameterMissingException("Missing param '$key'");
         });
 
-        if (is_object($param) &&
-            get_class($param) === 'Koine\Parameters' &&
-            $param->isEmpty()
-        ) {
+        if ($this->valueIsEmpty($param)) {
             throw new ParameterMissingException("Missing param '$key'");
         }
 
@@ -81,10 +78,26 @@ class Parameters extends Hash
 
     /**
      * Get the flag throw
-     * @return boolean
+     *
+     * @return boolean;
      */
     public function getThrowExceptions()
     {
-        return self::$throwExceptions;
+        return static::$throwExceptions;
+    }
+
+    /**
+     * Empty Hash or empty array?
+     * @return boolean
+     */
+    protected function valueIsEmpty($value)
+    {
+        return (
+            is_object($value) &&
+            get_class($value) === 'Koine\Parameters' &&
+            $value->isEmpty()
+        )
+        ||
+        (is_array($value) && !count($value));
     }
 }
