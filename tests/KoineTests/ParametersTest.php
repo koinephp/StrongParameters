@@ -180,4 +180,76 @@ class ParametersTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($expected, $permitted->toArray());
     }
+
+    /**
+     * @test
+     */
+    public function permitReturnsEmptyArrayIfArrayIsPassedInThePermitHash()
+    {
+        $dataCollection = array(
+            array('id' => array()),
+            array('id' => array('foo')),
+            array('id' => array(1, 2, 3)),
+        );
+
+        foreach ($dataCollection as $data) {
+            $params = new Parameters($data);
+
+            $actual = $params->permit(array('id' => array()))->toArray();
+
+            $this->assertEquals($data, $actual);
+        }
+    }
+
+    /**
+     * @test
+     */
+    public function permitHandlesNestedParams()
+    {
+        $this->markTestIncomplete();
+        Parameters::$throwExceptions = false;
+
+        $data = array(
+            'book' => array(
+                'title'   => 'Some Tilte',
+                'edition' => '3',
+                'authors' => array(
+                    array(
+                        'name'     => 'Jon',
+                        'birthday' => '1960-01-02',
+                    ),
+                    array(
+                        'name'     => 'Jon',
+                        'birthday' => '1960-01-02',
+                    ),
+                )
+            ),
+            'foo' => 'bar',
+            'bar' => 'foo'
+        );
+
+        $params = new Parameters($data);
+
+        $actual = $params->permit(array(
+            'book' => array('authors' => array('name')),
+            'foo'
+        ))->toArray();
+
+        $expected = array(
+            'book' => array(
+                'title'   => 'Some Tilte',
+                'authors' => array(
+                    array(
+                        'name'     => 'Jon',
+                    ),
+                    array(
+                        'name'     => 'Jon',
+                    ),
+                )
+            ),
+            'foo' => 'bar'
+        );
+
+        $this->assertEquals($expected, $actual);
+    }
 }

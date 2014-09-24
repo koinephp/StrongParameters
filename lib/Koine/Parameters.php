@@ -61,8 +61,22 @@ class Parameters extends Hash
     {
         $params = clone $this;
 
+        return $this->filter($params, $permittedParams);
+    }
+
+    /**
+     * Filter out or throws exception according to the permitted params
+     * @param  Parameter                     $params
+     * @param  array                         $permittedParams
+     * @return Parameter
+     * @throws UnpermittedParameterException when params not permitted are passed in
+     */
+    protected function filter($params, array $permittedParams)
+    {
         foreach ($params as $key => $value) {
-            if (!in_array($key, $permittedParams)) {
+            if (!is_int($key) && array_key_exists($key, $permittedParams)) {
+                // handle nested params
+            } elseif (!in_array($key, $permittedParams)) {
                 if ($this->getThrowExceptions()) {
                     throw new UnpermittedParameterException(
                         "Parameter '$key' is not allowed"
