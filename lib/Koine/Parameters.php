@@ -67,23 +67,17 @@ class Parameters extends Hash
     /**
      * Filter out or throws exception according to the permitted params
      * @param  Parameter                     $params
-     * @param  array                         $permittedParams
+     * @param  array                         $permitted
      * @return Parameter
      * @throws UnpermittedParameterException when params not permitted are passed in
      */
-    protected function filter($params, array $permittedParams)
+    protected function filter($params, array $permitted)
     {
         foreach ($params as $key => $value) {
-            if (!is_int($key) && array_key_exists($key, $permittedParams)) {
+            if (!is_int($key) && array_key_exists($key, $permitted)) {
                 // handle nested params
-            } elseif (!in_array($key, $permittedParams)) {
-                if ($this->getThrowExceptions()) {
-                    throw new UnpermittedParameterException(
-                        "Parameter '$key' is not allowed"
-                    );
-                } else {
-                    $params->delete($key);
-                }
+            } elseif (!in_array($key, $permitted)) {
+                $this->handleUnpermittedParam($key, $params);
             }
         }
 
@@ -113,5 +107,21 @@ class Parameters extends Hash
         )
         ||
         (is_array($value) && !count($value));
+    }
+
+    /**
+     * Handle the unpermitted param either by removing it or throwing an exception
+     * @param  string                    $key
+     * @param  Parameters                $params
+     * @throws ParameterMissingException when parameter is missing
+     */
+    protected function handleUnpermittedParam($key, $params)
+    {
+        if ($this->getThrowExceptions()) {
+            $message = "Parameter '$key' is not allowed";
+            throw new UnpermittedParameterException($message);
+        }
+
+        $params->delete($key);
     }
 }

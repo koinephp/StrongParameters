@@ -219,7 +219,7 @@ class ParametersTest extends PHPUnit_Framework_TestCase
                         'birthday' => '1960-01-02',
                     ),
                     array(
-                        'name'     => 'Jon',
+                        'name'     => 'Daniel',
                         'birthday' => '1960-01-02',
                     ),
                 )
@@ -239,12 +239,8 @@ class ParametersTest extends PHPUnit_Framework_TestCase
             'book' => array(
                 'title'   => 'Some Tilte',
                 'authors' => array(
-                    array(
-                        'name'     => 'Jon',
-                    ),
-                    array(
-                        'name'     => 'Jon',
-                    ),
+                    array('name' => 'Jon'),
+                    array('name' => 'Daniel'),
                 )
             ),
             'foo' => 'bar'
