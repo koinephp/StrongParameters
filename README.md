@@ -18,6 +18,7 @@ Package information:
 [![Total Downloads](https://poser.pugx.org/koine/strong-parameters]/downloads.svg)](https://packagist.org/packages/koine/strong-parameters])
 [![Latest Unstable Version](https://poser.pugx.org/koine/strong-parameters]/v/unstable.svg)](https://packagist.org/packages/koine/strong-parameters])
 [![License](https://poser.pugx.org/koine/strong-parameters]/license.svg)](https://packagist.org/packages/koine/strong-parameters])
+[![Dependency Status](https://gemnasium.com/koinephp/StrongParameters.png)](https://gemnasium.com/koinephp/StrongParameters)
 
 ### Usage
 
