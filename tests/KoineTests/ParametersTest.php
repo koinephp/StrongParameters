@@ -159,6 +159,7 @@ class ParametersTest extends PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @group focus
      */
     public function permitFiltersOutParamsThatAreNotAllowed()
     {
@@ -208,6 +209,8 @@ class ParametersTest extends PHPUnit_Framework_TestCase
         Parameters::$throwExceptions = false;
 
         $data = array(
+            'title'   => 'Title',
+            'edition' => 'third',
             'authors' => array(
                 array(
                     'name'     => 'Jon',
@@ -222,9 +225,13 @@ class ParametersTest extends PHPUnit_Framework_TestCase
 
         $params = new Parameters($data);
 
-        $actual = $params->permit(array('authors' => array('name')))->toArray();
+        $actual = $params->permit(array(
+            'authors' => array('name'),
+            'title'   => 'Title'
+        ))->toArray();
 
         $expected = array(
+            'title'   => 'Title',
             'authors' => array(
                 array('name' => 'Jon'),
                 array('name' => 'Daniel'),
@@ -236,15 +243,17 @@ class ParametersTest extends PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @group focus
      */
     public function permitHandlesNestedParams()
     {
-        $this->markTestIncomplete();
+        // $this->markTestIncomplete();
         Parameters::$throwExceptions = false;
+        define('DEBUG', '');
 
         $data = array(
             'book' => array(
-                'title'   => 'Some Tilte',
+                'title'   => 'Some Title',
                 'edition' => '3',
                 'authors' => array(
                     array(
@@ -264,13 +273,16 @@ class ParametersTest extends PHPUnit_Framework_TestCase
         $params = new Parameters($data);
 
         $actual = $params->permit(array(
-            'book' => array('authors' => array('name')),
+            'book' => array(
+                'authors' => array('name'),
+                'title'
+            ),
             'foo'
         ))->toArray();
 
         $expected = array(
             'book' => array(
-                'title'   => 'Some Tilte',
+                'title'   => 'Some Title',
                 'authors' => array(
                     array('name' => 'Jon'),
                     array('name' => 'Daniel'),

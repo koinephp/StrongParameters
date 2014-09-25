@@ -65,33 +65,45 @@ class Parameters extends Hash
      */
     public function filter(Parameters $params, array $permitted = array())
     {
-        // clean unwanted
+        $this->cleanUnwanted($params, $permitted);
+        $this->handleArrays($params, $permitted);
+
+        return $params;
+    }
+
+    public function handleArrays(Parameters $params, $permitted)
+    {
+        if (defined('DEBUG')) {
+            echo "------\n";
+            print_r($params->toArray());
+            print_r($permitted);
+        }
+
+        // handle arrays
+        foreach ($permitted as $key => $allowed) {
+            if ($params->hasKey($key)) {
+                $data = $params[$key];
+
+                if ($data) {
+                    if (is_array($allowed)) {
+                        if ($data instanceof Parameters) {
+                                $this->handleArrays($data, $allowed);
+                        }
+                    } else {
+                        $this->handleUnpermittedParam($params, $permitted);
+                    }
+                }
+            }
+        }
+    }
+
+    public function cleanUnwanted(Parameters $params, $permitted)
+    {
         foreach ($params->toArray() as $key => $value) {
             if (!is_int($key) && !in_array($key, $permitted) && !array_key_exists($key, $permitted)) {
                 $this->handleUnpermittedParam($key, $params);
             }
         }
-
-        // handle arrays
-        foreach ($permitted as $key => $allowed) {
-            if (is_array($allowed)) {
-                $value = $params[$key];
-
-                if ($value) {
-                    if ($value instanceof Parameters) {
-                        foreach ($value as $k => $v) {
-                            if ($v instanceof Parameters) {
-                                $this->filter($v, $allowed);
-                            }
-                        }
-                    } else {
-                        $this->handleUnpermittedParam($key, $params);
-                    }
-                }
-            }
-        }
-
-        return $params;
     }
 
     /**
