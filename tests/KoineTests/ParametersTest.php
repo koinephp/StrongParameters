@@ -166,8 +166,6 @@ class ParametersTest extends PHPUnit_Framework_TestCase
 
         $params = $this->getUserExample();
 
-        $this->object = new Parameters($params->toArray());
-
         $this->assertFalse($params->getThrowExceptions());
 
         $permitted = $params->requireParam('user')->permit(array(
