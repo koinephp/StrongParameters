@@ -63,14 +63,12 @@ class Parameters extends Hash
      * @return Parameter
      * @throws UnpermittedParameterException when params not permitted are passed in
      */
-    protected function filter($params, array $permitted)
+    public function filter(Parameters $params, array $permitted = array())
     {
         // clean unwanted
-        if ($params instanceof Parameters) {
-            foreach ($params->toArray() as $key => $value) {
-                if (!is_int($key) && !in_array($key, $permitted) && !array_key_exists($key, $permitted)) {
-                    $this->handleUnpermittedParam($key, $params);
-                }
+        foreach ($params->toArray() as $key => $value) {
+            if (!is_int($key) && !in_array($key, $permitted) && !array_key_exists($key, $permitted)) {
+                $this->handleUnpermittedParam($key, $params);
             }
         }
 
@@ -81,8 +79,10 @@ class Parameters extends Hash
 
                 if ($value) {
                     if ($value instanceof Parameters) {
-                        foreach ($value as $k  => $v) {
-                            $this->filter($v, $allowed);
+                        foreach ($value as $k => $v) {
+                            if ($v instanceof Parameters) {
+                                $this->filter($v, $allowed);
+                            }
                         }
                     } else {
                         $this->handleUnpermittedParam($key, $params);
