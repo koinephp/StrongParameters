@@ -203,6 +203,41 @@ class ParametersTest extends PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @group focus
+     */
+    public function permitHandlesSimpleHashParams()
+    {
+        Parameters::$throwExceptions = false;
+
+        $data = array(
+            'authors' => array(
+                array(
+                    'name'     => 'Jon',
+                    'birthday' => '1960-01-02',
+                ),
+                array(
+                    'name'     => 'Daniel',
+                    'birthday' => '1960-01-02',
+                ),
+            )
+        );
+
+        $params = new Parameters($data);
+
+        $actual = $params->permit(array('authors' => array('name')))->toArray();
+
+        $expected = array(
+            'authors' => array(
+                array('name' => 'Jon'),
+                array('name' => 'Daniel'),
+            )
+        );
+
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * @test
      */
     public function permitHandlesNestedParams()
     {

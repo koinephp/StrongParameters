@@ -65,11 +65,29 @@ class Parameters extends Hash
      */
     protected function filter($params, array $permitted)
     {
-        foreach ($params as $key => $value) {
-            if (!is_int($key) && array_key_exists($key, $permitted)) {
-                // handle nested params
-            } elseif (!in_array($key, $permitted)) {
-                $this->handleUnpermittedParam($key, $params);
+        // clean unwanted
+        if ($params instanceof Parameters) {
+            foreach ($params->toArray() as $key => $value) {
+                if (!is_int($key) && !in_array($key, $permitted) && !array_key_exists($key, $permitted)) {
+                    $this->handleUnpermittedParam($key, $params);
+                }
+            }
+        }
+
+        // handle arrays
+        foreach ($permitted as $key => $allowed) {
+            if (is_array($allowed)) {
+                $value = $params[$key];
+
+                if ($value) {
+                    if ($value instanceof Parameters) {
+                        foreach ($value as $k  => $v) {
+                            $this->filter($v, $allowed);
+                        }
+                    } else {
+                        $this->handleUnpermittedParam($key, $params);
+                    }
+                }
             }
         }
 
