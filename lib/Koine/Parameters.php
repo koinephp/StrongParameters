@@ -23,14 +23,6 @@ class Parameters extends Hash
     protected $throw = true;
 
     /**
-     * @param array $params
-     */
-    public function __construct(array $params = array())
-    {
-        parent::__construct($params);
-    }
-
-    /**
      * Makes sure a parameter was passed
      *
      * @param  string                    $key the parameter key
