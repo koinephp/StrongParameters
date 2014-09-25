@@ -106,5 +106,3 @@ phpcs --standard=PSR2 tests
 ### Authors
 
 - [Marcelo Jacobus](https://github.com/mjacobus)
-- [Daniel Caña](https://github.com/dbcana)
-- [Elisandro Nabinger](https://github.com/nabec)
