@@ -53,8 +53,6 @@ $userParams = $params->requireParam('user')->permit(array(
 // do something with the values
 ```
 
-The templates:
-
 ### Installing
 
 #### Via Composer
