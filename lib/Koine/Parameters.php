@@ -106,10 +106,15 @@ class Parameters extends Hash
      */
     private function handleArrays(Parameters $params, array $permitted = array())
     {
-        // handle arrays
         foreach ($permitted as $key => $allowed) {
             if (is_array($allowed) && $params->hasKey($key)) {
-                $this->filter($params[$key], $allowed);
+                $value = $params[$key];
+
+                if ($value instanceof Parameters) {
+                    $this->filter($value, $allowed);
+                } else {
+                    $this->handleUnpermittedParam($key, $params);
+                }
             }
         }
     }

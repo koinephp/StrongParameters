@@ -305,4 +305,63 @@ class ParametersTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($expected, $actual);
     }
+
+    public function providerForNestedPermissions()
+    {
+        return array(
+            # data set
+            array(
+                # data
+                array('tags' => array(
+                    array('name' => 'php', 'order' => 1),
+                    array('name' => 'ruby', 'order' => 2),
+                )),
+
+                # permit
+                array('tags' => array('name')),
+
+                # expected
+                array('tags' => array(
+                    array('name' => 'php'),
+                    array('name' => 'ruby'),
+                )),
+            ),
+
+            # data set
+            array(
+                # data
+                array('tags' => array('php', 'ruby')),
+
+                # permit
+                array('tags' => array()),
+
+                # expected
+                array('tags' => array('php', 'ruby')),
+            ),
+
+            # data set
+            array(
+                # data
+                array('tags' => 'abc'),
+
+                # permit
+                array('tags' => array()),
+
+                # expected
+                array(),
+            ),
+        );
+    }
+
+    /**
+     * @test
+     * @dataProvider providerForNestedPermissions
+     */
+    public function permitNestedPermissionsAreHandledCorrectly($data, $permitted, $expected)
+    {
+        Parameters::$throwExceptions = false;
+        $params = new Parameters($data);
+        $actual = $params->permit($permitted)->toArray();
+        $this->assertEquals($expected, $actual);
+    }
 }
