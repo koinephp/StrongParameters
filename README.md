@@ -139,7 +139,7 @@ Append the lib to your requirements key in your composer.json.
 
 ## Contributing
 
-Please refer to the [contribuiting guide](https://github.com/koniephp/StrongParameters/blob/master/CONTRIBUTING.md).
+Please refer to the [contribuiting guide](https://github.com/koinephp/StrongParameters/blob/master/CONTRIBUTING.md).
 
 ### Lincense
 [MIT](MIT-LICENSE)
