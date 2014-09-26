@@ -53,51 +53,70 @@ class Parameters extends Hash
     {
         $params = clone $this;
 
-        return $this->filter($params, $permittedParams);
+        $this->filter($params, $permittedParams);
+
+        return $params;
     }
 
     /**
      * Filter out or throws exception according to the permitted params
      * @param  Parameter                     $params
      * @param  array                         $permitted
-     * @return Parameter
      * @throws UnpermittedParameterException when params not permitted are passed in
      */
     public function filter(Parameters $params, array $permitted = array())
     {
         $this->cleanUnwanted($params, $permitted);
         $this->handleArrays($params, $permitted);
-
-        return $params;
+        $this->handleCollections($params, $permitted);
     }
 
-    public function handleArrays(Parameters $params, $permitted)
+    /**
+     * Handle Parameters that have only integer indexes
+     * @param Parameter $params
+     * @param array     $permitted
+     */
+    private function handleCollections(Parameters $params, array $permitted = array())
     {
-        if (defined('DEBUG')) {
-            echo "------\n";
-            print_r($params->toArray());
-            print_r($permitted);
-        }
+        $keys = $params->keys();
+        $intKeys = $keys->select(function ($value) {
+            return is_int($value);
+        });
 
-        // handle arrays
-        foreach ($permitted as $key => $allowed) {
-            if ($params->hasKey($key)) {
-                $data = $params[$key];
+        if ($keys->count() === $intKeys->count()) {
+            foreach ($keys as $key) {
+                $value = $params[$key];
 
-                if ($data) {
-                    if (is_array($allowed)) {
-                        if ($data instanceof Parameters) {
-                                $this->handleArrays($data, $allowed);
-                        }
-                    } else {
-                        $this->handleUnpermittedParam($params, $permitted);
-                    }
+                if ($value instanceof Parameters) {
+                    $this->filter($value, $permitted);
                 }
             }
         }
     }
 
-    public function cleanUnwanted(Parameters $params, $permitted)
+    /**
+     * Handle permissions that are given in the hash form
+     * @param Parameter $params
+     * @param array     $permitted
+     */
+    private function handleArrays(Parameters $params, array $permitted = array())
+    {
+        // handle arrays
+        foreach ($permitted as $key => $allowed) {
+            if (is_array($allowed) && $params->hasKey($key)) {
+                $this->filter($params[$key], $allowed);
+            }
+        }
+    }
+
+    /**
+     * Filters out or throws exception when parameters are neigher keys nor values
+     * in the permitted array
+     * @param  Parameter                 $params
+     * @param  array                     $permitted
+     * @throws ParameterMissingException when parameter is missing
+     */
+    private function cleanUnwanted(Parameters $params, $permitted)
     {
         foreach ($params->toArray() as $key => $value) {
             if (!is_int($key) && !in_array($key, $permitted) && !array_key_exists($key, $permitted)) {

@@ -292,5 +292,26 @@ class ParametersTest extends PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals($expected, $actual);
+
+        // nested but with no specific requirements
+
+        $actual = $params->permit(array(
+            'book' => array(
+                'authors' => array(),
+                'title'
+            ),
+            'foo'
+        ))->toArray();
+
+        $expected = array(
+            'book' => array(
+                'title'   => 'Some Title',
+                'authors' => array(
+                    array('name' => 'Jon',    'birthday' => '1960-01-02'),
+                    array('name' => 'Daniel', 'birthday' => '1960-01-02'),
+                )
+            ),
+            'foo' => 'bar'
+        );
     }
 }
