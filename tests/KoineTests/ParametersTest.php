@@ -42,32 +42,13 @@ class ParametersTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function throwExceptionsDefaultsToStaticConfiguration()
+    public function throwExceptionsIsGlobalConfiguration()
     {
         $params = $this->getUserExample();
         $this->assertTrue($params->getThrowExceptions());
 
         Parameters::$throwExceptions = false;
 
-        $params = new Parameters();
-        $this->assertFalse($params->getThrowExceptions());
-    }
-
-    /**
-     * @test
-     */
-    public function setThrowExceptionsToFalseCascadesToNewParameters()
-    {
-        Parameters::$throwExceptions = false;
-
-        $params = $this->getUserExample();
-        $params = new Parameters($params->toArray());
-
-        $user = $params->requireParam('user');
-
-        $this->assertFalse($user->getThrowExceptions());
-
-        $params = $user->permit(array('name', 'lastName'));
         $this->assertFalse($params->getThrowExceptions());
     }
 
@@ -76,7 +57,7 @@ class ParametersTest extends PHPUnit_Framework_TestCase
      * @expectedException \Koine\Parameters\ParameterMissingException
      * @expectedExceptionMessage Missing param 'person'
      */
-    public function throwExceptionWhenRequiredParamDoesNotExist()
+    public function throwExceptionWhenRequiredParamDoesNotExistAndConfigIsToThrow()
     {
         $params = $this->getUserExample();
         $params->requireParam('person');
@@ -159,7 +140,6 @@ class ParametersTest extends PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @group focus
      */
     public function permitFiltersOutParamsThatAreNotAllowed()
     {
@@ -183,7 +163,7 @@ class ParametersTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function permitReturnsEmptyArrayIfArrayIsPassedInThePermitHash()
+    public function permitReturnsArrayAyValueIfAnEmptyArrayPassedInThePermitParam()
     {
         $dataCollection = array(
             array('id' => array()),
@@ -202,9 +182,8 @@ class ParametersTest extends PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @group focus
      */
-    public function permitHandlesSimpleHashParams()
+    public function permitHandlesSimpleArrayPermissions()
     {
         Parameters::$throwExceptions = false;
 
@@ -243,13 +222,10 @@ class ParametersTest extends PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @group focus
      */
-    public function permitHandlesNestedParams()
+    public function permitHandlesNestedHashPermissions()
     {
-        // $this->markTestIncomplete();
         Parameters::$throwExceptions = false;
-        define('DEBUG', '');
 
         $data = array(
             'book' => array(
