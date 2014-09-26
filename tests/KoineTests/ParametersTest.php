@@ -220,13 +220,8 @@ class ParametersTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    /**
-     * @test
-     */
-    public function permitHandlesNestedHashPermissions()
+    public function getPublicationExample()
     {
-        Parameters::$throwExceptions = false;
-
         $data = array(
             'book' => array(
                 'title'   => 'Some Title',
@@ -246,7 +241,17 @@ class ParametersTest extends PHPUnit_Framework_TestCase
             'bar' => 'foo'
         );
 
-        $params = new Parameters($data);
+        return new Parameters($data);
+    }
+
+    /**
+     * @test
+     */
+    public function permitHandlesNestedPermissions()
+    {
+        Parameters::$throwExceptions = false;
+
+        $params = $this->getPublicationExample();
 
         $actual = $params->permit(array(
             'book' => array(
@@ -268,8 +273,16 @@ class ParametersTest extends PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals($expected, $actual);
+    }
 
-        // nested but with no specific requirements
+    /**
+     * @test
+     */
+    public function permitHandlesNestedEmptyArrayOptions()
+    {
+        Parameters::$throwExceptions = false;
+
+        $params = $this->getPublicationExample();
 
         $actual = $params->permit(array(
             'book' => array(
@@ -289,5 +302,7 @@ class ParametersTest extends PHPUnit_Framework_TestCase
             ),
             'foo' => 'bar'
         );
+
+        $this->assertEquals($expected, $actual);
     }
 }

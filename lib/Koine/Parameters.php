@@ -78,6 +78,11 @@ class Parameters extends Hash
      */
     private function handleCollections(Parameters $params, array $permitted = array())
     {
+        // if is empty, any value is allowed
+        if (empty($permitted)) {
+            return;
+        }
+
         $keys = $params->keys();
         $intKeys = $keys->select(function ($value) {
             return is_int($value);
