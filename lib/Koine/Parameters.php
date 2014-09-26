@@ -159,9 +159,7 @@ class Parameters extends Hash
             is_object($value) &&
             get_class($value) === 'Koine\Parameters' &&
             $value->isEmpty()
-        )
-        ||
-        (is_array($value) && !count($value));
+        ) || (is_array($value) && !count($value));
     }
 
     /**
