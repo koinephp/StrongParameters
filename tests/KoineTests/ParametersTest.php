@@ -350,6 +350,18 @@ class ParametersTest extends PHPUnit_Framework_TestCase
                 # expected
                 array(),
             ),
+
+            # data set
+            array(
+                # data
+                array('tags' => array('abc')),
+
+                # permit
+                array('tags'),
+
+                # expected
+                array(),
+            ),
         );
     }
 

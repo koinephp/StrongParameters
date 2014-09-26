@@ -124,7 +124,7 @@ Append the lib to your requirements key in your composer.json.
     // [..]
     require: {
         // append this line to your requirements
-        "koine/strong-parameters": "~0.9.2"
+        "koine/strong-parameters": "~0.9.3"
     }
 }
 ```

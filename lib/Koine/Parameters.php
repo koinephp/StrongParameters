@@ -129,7 +129,11 @@ class Parameters extends Hash
     private function cleanUnwanted(Parameters $params, $permitted)
     {
         foreach ($params->toArray() as $key => $value) {
-            if (!is_int($key) && !in_array($key, $permitted) && !array_key_exists($key, $permitted)) {
+            if (is_array($value) && !is_int($key)) {
+                if (!array_key_exists($key, $permitted)) {
+                    $this->handleUnpermittedParam($key, $params);
+                }
+            } elseif (!is_int($key) && !in_array($key, $permitted) && !array_key_exists($key, $permitted)) {
                 $this->handleUnpermittedParam($key, $params);
             }
         }
