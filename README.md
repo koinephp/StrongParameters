@@ -98,7 +98,8 @@ $params = new Params(array(
     'tags' => array('php', 'ruby')
 ));
 
-$params->permit(array('tags' => array()))->toArray(); // array( 'tags' => array('php', 'ruby'))
+$params->permit(array('tags' => array()))->toArray();
+// array( 'tags' => array('php', 'ruby'))
 
 // array params with invalid data
 
