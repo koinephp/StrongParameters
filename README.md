@@ -49,6 +49,65 @@ $userParams = $params->requireParam('user')->permit(array(
 ))->toArray(); // array('name' => 'Foo', 'email' => 'Foo@bar.com')
 
 
+// nested params
+
+$params = new Params(array(
+    'book' => array(
+        'title'   => 'Some Title',
+        'edition' => '3',
+        'authors' => array(
+            array(
+                'name'     => 'Jon',
+                'birthday' => '1960-01-02',
+            ),
+            array(
+                'name'     => 'Daniel',
+                'birthday' => '1960-01-02',
+            ),
+        )
+    ),
+    'foo' => 'bar',
+    'bar' => 'foo'
+));
+
+$params->permit(array(
+    'book' => array(
+        'authors' => array('name'),
+        'title'
+    ),
+    'foo'
+))->toArray();
+
+/**
+    array(
+        'book' => array(
+            'title'   => 'Some Title',
+            'authors' => array(
+                array('name' => 'Jon'),
+                array('name' => 'Daniel'),
+            )
+        ),
+        'foo' => 'bar'
+  )
+*/
+
+
+// array params
+
+$params = new Params(array(
+    'tags' => array('php', 'ruby')
+));
+
+$params->permit(array('tags' => array()))->toArray(); // array( 'tags' => array('php', 'ruby'))
+
+// array params with invalid data
+
+$params = new Params(array(
+    'tags' => 'invalid'
+));
+
+$params->permit(array('tags' => array()))->toArray(); // array()
+
 
 // do something with the values
 ```
@@ -75,30 +134,11 @@ Append the lib to your requirements key in your composer.json.
 
 ### Issues/Features proposals
 
-[Here](https://github.com/koinephp/strong-parameters/issues) is the issue tracker.
+[Here](https://github.com/koinephp/StrongParameters/issues) is the issue tracker.
 
-### Contributing
+## Contributing
 
-Only TDD code will be accepted. Please follow the [PSR-2 code standard](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md).
-
-1. Fork it
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
-
-### How to run the tests:
-
-```bash
-phpunit --configuration tests/phpunit.xml
-```
-
-### To check the code standard run:
-
-```bash
-phpcs --standard=PSR2 lib
-phpcs --standard=PSR2 tests
-```
+Please refer to the [contribuiting guide](https://github.com/koniephp/StrongParameters/blob/master/CONTRIBUTING.md).
 
 ### Lincense
 [MIT](MIT-LICENSE)
