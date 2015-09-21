@@ -18,7 +18,7 @@ composer install
 - Then you are ready to run the tests
 
 ```bash
-vendor/bin/phpunit -c tests/phpunit.xml
+vendor/bin/phpunit
 ```
 
 ### To check the code standard run:

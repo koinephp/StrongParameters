@@ -14,7 +14,7 @@ before_script:
 
 script:
   - mkdir -p build/logs
-  - vendor/bin/phpunit --coverage-clover=coverage/coverage.xml --configuration=tests/phpunit.xml
+  - vendor/bin/phpunit --coverage-clover=coverage/coverage.xml --configuration=phpunit.xml
 
 after_script:
   - php vendor/bin/coveralls
