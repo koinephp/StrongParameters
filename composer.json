@@ -17,6 +17,6 @@
         "satooshi/php-coveralls": "dev-master"
     },
     "autoload": {
-        "psr-4": {"Koine\\": "lib\\Koine"}
+        "psr-4": {"Koine\\": "lib"}
     }
 }
