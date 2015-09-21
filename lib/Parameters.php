@@ -157,7 +157,7 @@ class Parameters extends Hash
     {
         return (
             is_object($value) &&
-            get_class($value) === 'Koine\Parameters' &&
+            $value instanceof Parameters &&
             $value->isEmpty()
         ) || (is_array($value) && !count($value));
     }
